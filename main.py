@@ -115,8 +115,9 @@ def disable_warm_mode(display, res):
 
 def is_night():
     now = datetime.now().time()
-    if now >= datetime.strptime('18:00','%H:%M').time() <= datetime.strptime('06:00','%H:%M').time():
+    if now >= datetime.strptime('18:00','%H:%M').time() or now <= datetime.strptime('06:00','%H:%M').time():
         return True
+    return False
 
 def main():
     is_activated = False
@@ -126,7 +127,6 @@ def main():
         screen = libX11.XDefaultScreen(display)
         root = libX11.XRootWindow(display, screen)
         res = get_screen_resources(display, root)
-        
         if is_night() and not is_activated:
             print('Turning ON the Read-Mode')
             enable_warm_mode(display,res)
