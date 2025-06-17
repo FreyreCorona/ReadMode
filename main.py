@@ -120,7 +120,7 @@ def is_night():
 
 def main():
     is_activated = False
-
+    print('This program activates and deactivates the read-mode from your screen automatically from 16:00 hours to 06:00 hours')
     while True:
         display = open_display()
         screen = libX11.XDefaultScreen(display)
@@ -128,9 +128,11 @@ def main():
         res = get_screen_resources(display, root)
         
         if is_night() and not is_activated:
+            print('Turning ON the Read-Mode')
             enable_warm_mode(display,res)
             is_activated = True
         elif not is_night() and is_activated:
+            print('Turning OFF the Read-Mode')
             disable_warm_mode(display,res)
             is_activated = False
         
