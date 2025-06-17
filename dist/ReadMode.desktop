@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=ReadMode
+Exec=/path/to/ReadMode
+Icon=/path/to/ReadMode.png
+Terminal=false
