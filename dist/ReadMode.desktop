@@ -3,5 +3,5 @@ Version=1.0
 Type=Application
 Name=ReadMode
 Exec=/usr/local/bin/ReadMode
-Icon=/usr/share/icons/hicolor/256x256/apps/readmode.png
+Icon=/usr/share/icons/hicolor/256x256/apps/ReadMode.png
 Terminal=false
