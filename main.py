@@ -1,6 +1,12 @@
 from ctypes import Structure,CDLL,POINTER,c_int,c_ulong,c_void_p,c_char_p,c_ushort,cast
 from datetime import datetime
 import time
+import atexit
+import signal
+import sys
+
+display = None
+res = None
 
 libX11 = CDLL("libX11.so")
 libXrandr = CDLL("libXrandr.so")
@@ -119,7 +125,24 @@ def is_night():
         return True
     return False
 
+def cleanup():
+    global display, res
+
+    if display and res:
+        disable_warm_mode(display,res)
+        libXrandr.XRRFreeScreenResources(res)
+        libX11.XCloseDisplay(display)
+
+atexit.register(cleanup)
+
+def handle_signal(signum,frame):
+    sys.exit(0)
+
+signal.signal(signal.SIGINT,handle_signal)
+signal.signal(signal.SIGTERM,handle_signal)
+
 def main():
+    global display,res
     is_activated = False
     print('This program activates and deactivates the read-mode from your screen automatically from 16:00 hours to 06:00 hours')
     while True:
@@ -136,9 +159,11 @@ def main():
             disable_warm_mode(display,res)
             is_activated = False
         
+        time.sleep(3600)
+
         libXrandr.XRRFreeScreenResources(res)
         libX11.XCloseDisplay(display)
-        time.sleep(3600)
+
 
 if __name__ == "__main__":
     main()
